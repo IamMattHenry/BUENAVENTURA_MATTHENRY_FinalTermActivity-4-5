@@ -32,7 +32,7 @@
                             <div class="name-avatar">@item.Name.Substring(0, 1).ToUpper()</div>
                             @Html.DisplayFor(modelItem => item.Name)
                         </td>
-                        <td>@Html.DisplayFor(modelItem => item.Designation)</td>
+                        <td style="font-size: 1.1rem;">@Html.DisplayFor(modelItem => item.Designation)</td>
                         <td class="salary-cell">₱@(item.Salary?.ToString("N0") ?? "N/A")</td>
                         <td class="actions-cell">
                             @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "action-btn btn-edit" })
@@ -106,7 +106,7 @@
         text-align: left;
         font-weight: 600;
         color: var(--dark-text);
-        font-size: 0.95rem;
+        font-size: 1.1rem;
         text-transform: uppercase;
         letter-spacing: 0.5px;
     }
@@ -224,14 +224,14 @@
 
         .action-btn {
             padding: 0.4rem 0.6rem;
-            font-size: 0.75rem;
+            font-size: 1.1rem;
             margin: 0.2rem;
         }
 
         .name-avatar {
             width: 32px;
             height: 32px;
-            font-size: 0.9rem;
+            font-size: 1.1rem;
         }
     }
 </style>
