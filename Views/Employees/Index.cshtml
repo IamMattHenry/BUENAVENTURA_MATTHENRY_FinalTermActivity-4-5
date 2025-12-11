@@ -1,45 +1,237 @@
 ﻿@model IEnumerable<BUENAVENTURA_MATTHENRY_FinalTermActivity_4_5.Employee>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Employee List";
 }
 
-<h2>Index</h2>
+<div class="employee-container">
+    <div class="page-header">
+        <h1 class="page-title">Employee Management</h1>
+        <p class="page-subtitle">Manage your team members</p>
+    </div>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Designation)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Salary)
-        </th>
-        <th></th>
-    </tr>
+    <div class="action-bar">
+        @Html.ActionLink("Create New Employee", "Create", null, new { @class = "btn-primary btn-create" })
+    </div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Designation)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Salary)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
-    </tr>
-}
+    <div class="table-container">
+        <table class="employee-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Designation</th>
+                    <th>Salary</th>
+                    <th class="actions-column">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="employee-name">
+                            <div class="name-avatar">@item.Name.Substring(0, 1).ToUpper()</div>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>@Html.DisplayFor(modelItem => item.Designation)</td>
+                        <td class="salary-cell">₱@(item.Salary?.ToString("N0") ?? "N/A")</td>
+                        <td class="actions-cell">
+                            @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "action-btn btn-edit" })
+                            @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "action-btn btn-details" })
+                            @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "action-btn btn-delete" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
 
-</table>
+        @if (!Model.Any())
+        {
+            <div class="empty-state">
+                <p>No employees found. Add your first employee to get started!</p>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .employee-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+
+    .page-header {
+        margin-bottom: 2rem;
+    }
+
+    .page-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--dark-text);
+        margin-bottom: 0.5rem;
+    }
+
+    .page-subtitle {
+        color: var(--light-text);
+        font-size: 1.1rem;
+    }
+
+    .action-bar {
+        margin-bottom: 2rem;
+    }
+
+    .btn-create {
+        display: inline-block;
+        text-decoration: none;
+    }
+
+    .table-container {
+        background: var(--white);
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+    }
+
+    .employee-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .employee-table thead {
+        background: linear-gradient(135deg, rgba(255, 107, 157, 0.1), rgba(38, 208, 124, 0.1));
+    }
+
+    .employee-table th {
+        padding: 1.2rem 1.5rem;
+        text-align: left;
+        font-weight: 600;
+        color: var(--dark-text);
+        font-size: 0.95rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .employee-table td {
+        padding: 1.2rem 1.5rem;
+        border-top: 1px solid var(--border-color);
+        color: var(--dark-text);
+    }
+
+    .employee-table tbody tr {
+        transition: all 0.3s ease;
+    }
+
+    .employee-table tbody tr:hover {
+        background-color: rgba(255, 107, 157, 0.05);
+    }
+
+    .employee-name {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        font-weight: 600;
+    }
+
+    .name-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--primary-pink), var(--primary-green));
+        color: var(--white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 1.1rem;
+    }
+
+    .salary-cell {
+        font-weight: 600;
+        color: var(--primary-green);
+    }
+
+    .actions-column {
+        text-align: center;
+    }
+
+    .actions-cell {
+        text-align: center;
+    }
+
+    .action-btn {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        margin: 0 0.25rem;
+        border-radius: 6px;
+        text-decoration: none;
+        font-size: 0.85rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .btn-edit {
+        background-color: rgba(38, 208, 124, 0.1);
+        color: var(--primary-green);
+    }
+
+    .btn-edit:hover {
+        background-color: var(--primary-green);
+        color: var(--white);
+        text-decoration: none;
+    }
+
+    .btn-details {
+        background-color: rgba(52, 152, 219, 0.1);
+        color: #3498db;
+    }
+
+    .btn-details:hover {
+        background-color: #3498db;
+        color: var(--white);
+        text-decoration: none;
+    }
+
+    .btn-delete {
+        background-color: rgba(231, 76, 60, 0.1);
+        color: #e74c3c;
+    }
+
+    .btn-delete:hover {
+        background-color: #e74c3c;
+        color: var(--white);
+        text-decoration: none;
+    }
+
+    .empty-state {
+        padding: 3rem;
+        text-align: center;
+        color: var(--light-text);
+        font-size: 1.1rem;
+    }
+
+        .page-title {
+            font-size: 1.8rem;
+        }
+
+        .employee-table {
+            font-size: 0.9rem;
+        }
+
+        .employee-table th,
+        .employee-table td {
+            padding: 0.8rem;
+        }
+
+        .action-btn {
+            padding: 0.4rem 0.6rem;
+            font-size: 0.75rem;
+            margin: 0.2rem;
+        }
+
+        .name-avatar {
+            width: 32px;
+            height: 32px;
+            font-size: 0.9rem;
+        }
+    }
+</style>
